@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import {Router} from '@reach/router';
+import firebase from './Firebase';
+
 import Home from './Home';
 import Welcome from './Welcome';
 import Navigation from './Navigation';
-import {Router} from '@reach/router';
 import Login from './Login';
 import Register from './Register';
 import Meetings from './Meetings';
+
 
 
 class App extends Component {
@@ -16,6 +19,17 @@ class App extends Component {
       user: null
     }
   }
+
+  componentDidMount() {
+    const ref = firebase.database().ref('user');
+
+    ref.on("value", snapshot => {
+      let FBUser = snapshot.val();
+      this.setState({ user: FBUser });
+    })
+  }
+
+
   render() {
     return (
     <div>
