@@ -31,25 +31,29 @@ class Register extends Component {
   }
 
   handleSubmit(e) {
-    var registationInfo = {
+    var registrationInfo = {
       displayName: this.state.displayName,
       email: this.state.email,
-      passOne: this.state.passOne
-    }
+      password: this.state.passOne
+    };
     e.preventDefault();
-    firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(
-      registationInfo.email,
-      registationInfo.passOne
-    ).then(()=> {
-      this.props.registerUser(registationInfo.displayName);
-    })
-    .catch(error => {
-      if (error.message !== null) {
-        this.setState({ errorMessage: error.message })
-      } else {
-        this.setState({ errorMessage: null })
-      }
-    })
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(
+        registrationInfo.email,
+        registrationInfo.password
+      )
+      .then(() => {
+        this.props.registerUser(registrationInfo.displayName);
+      })
+      .catch(error => {
+        if (error.message !== null) {
+          this.setState({ errorMessage: error.message });
+        } else {
+          this.setState({ errorMessage: null });
+        }
+      });
   }
 
   render() {

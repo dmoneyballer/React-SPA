@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from './Firebase';
+import AttendeesList from './AttendeesList';
 
 class Attendees extends Component {
   constructor(props) {
@@ -25,7 +26,8 @@ class Attendees extends Component {
         attendeesList.push({
           attendeeID: item,
           attendeeName: attendees[item].attendeeName,
-          attendeeEmail: attendees[item].attendeeEmail
+          attendeeEmail: attendees[item].attendeeEmail,
+          star: attendees[item].star
         });
       }
       this.setState({
@@ -44,7 +46,12 @@ class Attendees extends Component {
             </h1>
           </div>
         </div>
-        List Goes Here
+        <AttendeesList
+          adminUser={this.props.adminUser}
+          meetingID={this.props.meetingID}
+          userID={this.props.userID}
+          attendees={this.state.displayAttendees}
+        />
       </div>
     );
   }
